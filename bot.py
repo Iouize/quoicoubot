@@ -1,14 +1,15 @@
 import discord
 import random
 import string
+from secret_token import TOKEN
 
-DISCORD_TOKEN = 'MTEzMDU2MDU3ODkzOTc4OTMyMg.GbIkQd.aTNdttOjT_HPrEtTnRs5-r8mNgiAy1gq5RtZMc'
+DISCORD_TOKEN = TOKEN
 intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
 nombres = ["un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf", "dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf", "vingt"]
-emojis = ["!!!", "x)", "xD", "^^", "O.o", "uwu", ":P", ";D", "°_°", ":3", "X.X"]
+emojis = ["!!!", "x)", "xD", "^^", "O.o", "uwu", ":P", ";D", "°_°", ":3", "X.X", "hehe", ":O"]
 
 quoi_answer = ['coubeh', 'feur']
 toi_answer = ['lette', 'ture']
@@ -20,7 +21,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    msg = message.content.translate(str.maketrans('', '', string.punctuation))
+    msg = message.content.lower().translate(str.maketrans('', '', string.punctuation))
     response = ""
 
     if message.author == client.user:
@@ -34,6 +35,9 @@ async def on_message(message):
 
     if msg.endswith('hein'):
         response += 'deux'
+
+    if msg.endswith('qui'):
+        response += 'quette'
 
     if msg.endswith('toi'):
         response += random.choice(toi_answer)
@@ -57,7 +61,6 @@ async def on_message(message):
 
     if quoi_nb != []:
         response += nombres[nombres.index(quoi_nb[0])+1]
-
 
     if response != "":
         await message.channel.send(f'{response} {random.choice(emojis)}')
